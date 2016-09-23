@@ -1,17 +1,14 @@
 package com.mzherdev.restchooser.model;
 
-import org.hibernate.annotations.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
@@ -27,6 +24,7 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     public static final String DELETE = "User.delete";
@@ -37,7 +35,7 @@ public class User {
 
     @Id
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
-    private Integer id;
+    protected Integer id;
 
     @NotEmpty
     @Column(name = "name", nullable = false)
@@ -67,7 +65,8 @@ public class User {
     protected Set<Role> roles;
 
 
-    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @JsonIgnore
     protected Vote vote;
 
     public User() {
@@ -154,6 +153,7 @@ public class User {
         this.vote = vote;
     }
 
+    @JsonIgnore
     public boolean isNew() { return this.id == null; }
 
     @Override

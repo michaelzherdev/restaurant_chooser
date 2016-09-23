@@ -10,17 +10,33 @@ import static java.util.Objects.requireNonNull;
  * Created by mzherdev on 07.06.2016.
  */
 
-public class LoggedUser {
-    private User user;
-    private static int id;
+public class LoggedUser extends org.springframework.security.core.userdetails.User {
+    private static User user;
+    private static int id = 1000; // to change need to go on login page
 
     public LoggedUser(User user) {
+        super(user.getEmail(), user.getPassword(), user.isEnabled(), true, true, true, user.getRoles());
         this.user = user;
-        id = user.getId();
     }
 
     public static int id() {
         return id;
+    }
+
+//    public static User get() {
+//        return user;
+//    }
+
+    public void update(User newUser) {
+        user = newUser;
+    }
+
+    public static void setUser(User user) {
+        LoggedUser.user = user;
+    }
+
+    public static void setId(int id) {
+        LoggedUser.id = id;
     }
 
     public static LoggedUser safeGet() {
@@ -36,10 +52,6 @@ public class LoggedUser {
         LoggedUser user = safeGet();
         requireNonNull(user, "No authorized user found");
         return user;
-    }
-
-    public void update(User newUser) {
-        user = newUser;
     }
 
     @Override

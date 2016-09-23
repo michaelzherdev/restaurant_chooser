@@ -4,10 +4,7 @@ import com.mzherdev.restchooser.LoggedUser;
 import com.mzherdev.restchooser.model.User;
 import com.mzherdev.restchooser.web.ExceptionInfoHandler;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by mzherdev on 07.06.2016.

@@ -41,4 +41,9 @@ public class DateTimeUtil {
     public static LocalDateTime parseLocalDateTime(String str, DateTimeFormatter formatter) {
         return StringUtils.isEmpty(str) ? LocalDateTime.now() : LocalDateTime.parse(str, formatter);
     }
+
+    public static boolean canChangeVote(LocalDateTime ldt) {
+        return (ldt.toLocalDate().compareTo(LocalDate.now()) == 0
+                && (ldt.toLocalTime().compareTo(LocalTime.of(11, 00)) < 0));
+    }
 }

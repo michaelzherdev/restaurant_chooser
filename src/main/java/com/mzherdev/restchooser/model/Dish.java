@@ -1,5 +1,7 @@
 package com.mzherdev.restchooser.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -7,10 +9,16 @@ import javax.persistence.*;
 /**
  * Created by mzherdev on 07.06.2016.
  */
-
+@NamedQueries({
+        @NamedQuery(name = Dish.ALL, query = "SELECT d FROM Dish d"),
+        @NamedQuery(name = Dish.GET, query = "SELECT d FROM Dish d WHERE d.id=:id AND d.menu.id=:menuId"),
+})
 @Entity
 @Table(name = "dishes")
+@JsonRootName(value = "diet")
 public class Dish {
+    public static final String ALL = "Dish.getAll";
+    public static final String GET = "Dish.get";
 
     @Id
     @Column
@@ -24,6 +32,11 @@ public class Dish {
     @NotEmpty
     @Column(name = "price", nullable = false)
     private double price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_id", nullable = false)
+    @JsonIgnore
+    private Menu menu;
 
     public Dish() {
     }
@@ -55,6 +68,19 @@ public class Dish {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    @JsonIgnore
+    public boolean isNew() {
+        return (this.id == null);
     }
 
     @Override
