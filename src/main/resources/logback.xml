@@ -9,7 +9,7 @@
     <jmxConfigurator/>
 
     <appender name="file" class="ch.qos.logback.core.FileAppender">
-        <file>${RESTCHOOSER_ROOT}/log/restchooser.log</file>
+        <file>log/restchooser.log</file>
 
         <encoder>
             <charset>UTF-8</charset>

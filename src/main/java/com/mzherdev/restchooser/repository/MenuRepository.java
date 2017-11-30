@@ -4,16 +4,19 @@ import com.mzherdev.restchooser.model.Menu;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 21.09.16.
- */
 public interface MenuRepository {
 
-    Menu save(Menu dish);
+    Menu save(Menu menu, int restaurantId);
+
+    Menu update(Menu menu);
 
     Menu get(int id);
 
-    Menu getForRestaurant(int id, int restaurantId);
+    Menu getOneForRestaurant(int id, int restaurantId);
+
+    List<Menu> getAllForRestaurant(int restaurantId);
+
+    List<Menu> getActuals();
 
     List<Menu> getAll();
 }

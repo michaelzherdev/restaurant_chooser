@@ -10,4 +10,6 @@
     <context:annotation-config/>
 
     <context:component-scan base-package="com.mzherdev.restchooser.**"/>
+
+    <import resource="spring-security.xml"/>
 </beans>

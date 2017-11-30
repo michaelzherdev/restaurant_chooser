@@ -2,15 +2,14 @@ package com.mzherdev.restchooser.web.user;
 
 import com.mzherdev.restchooser.model.User;
 import com.mzherdev.restchooser.service.UserService;
+import com.mzherdev.restchooser.util.UserUtil;
+import com.mzherdev.restchooser.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public abstract class AbstractUserController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -30,7 +29,7 @@ public abstract class AbstractUserController {
     public User create(User user) {
         user.setId(null);
         log.info("create " + user);
-        return service.save(user);
+        return service.save(UserUtil.prepareToSave(user));
     }
 
     public void delete(int id) {
@@ -38,15 +37,15 @@ public abstract class AbstractUserController {
         service.delete(id);
     }
 
-    public void update(User user, int id) {
-        user.setId(id);
+    public void update(User user, int id) throws ReflectiveOperationException {
+        ValidationUtil.assureIdConsistent(user, id);
         log.info("update " + user);
         service.update(user);
     }
 
-    public void update(User user) {
+    public void update(User user) throws ReflectiveOperationException {
         log.info("update " + user);
-        service.update(user);
+        service.update(UserUtil.prepareToSave(user));
     }
 
     public User getByMail(String email) {

@@ -12,9 +12,6 @@ import com.mzherdev.restchooser.model.Dish;
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by mzherdev on 22.09.16.
- */
 public class DishDeserializer extends JsonDeserializer<List<Dish>> {
     @Override
     public List<Dish> deserialize(JsonParser jsonParser, DeserializationContext ctx) throws IOException, JsonProcessingException {

@@ -2,80 +2,65 @@ package com.mzherdev.restchooser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonRootName;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 @NamedQueries({
         @NamedQuery(name = Dish.ALL, query = "SELECT d FROM Dish d"),
-        @NamedQuery(name = Dish.GET, query = "SELECT d FROM Dish d WHERE d.id=:id AND d.menu.id=:menuId"),
+        @NamedQuery(name = Dish.DELETE, query = "DELETE FROM Dish d WHERE d.id=:id"),
 })
 @Entity
 @Table(name = "dishes")
+@NoArgsConstructor
 @JsonRootName(value = "diet")
-public class Dish {
+public class Dish implements AbstractEntity {
     public static final String ALL = "Dish.getAll";
-    public static final String GET = "Dish.get";
+    public static final String DELETE = "Dish.delete";
 
     @Id
-    @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "dish_seq", sequenceName = "dish_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dish_seq")
+    @Getter @Setter
     private Integer id;
 
     @NotEmpty
     @Column(name = "name", nullable = false)
+    @Getter @Setter
     private String name;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "price", nullable = false)
+    @Digits(integer=10, fraction=2)
+    @Getter @Setter
     private double price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id", nullable = false)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "dishes")
     @JsonIgnore
-    private Menu menu;
-
-    public Dish() {
-    }
+    @Getter @Setter
+    private List<Menu> menu;
 
     public Dish(double price, String name) {
         this.price = price;
         this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
+    public Dish(int id, double price, String name) {
+        this(price, name);
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public Dish(Dish dish) {
+        this.id = dish.id;
+        this.price = dish.price;
+        this.name = dish.name;
+        this.menu = dish.menu;
     }
 
     @JsonIgnore
@@ -90,5 +75,21 @@ public class Dish {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Dish dish = (Dish) o;
+
+        if (!id.equals(dish.id)) return false;
+        return name.equals(dish.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

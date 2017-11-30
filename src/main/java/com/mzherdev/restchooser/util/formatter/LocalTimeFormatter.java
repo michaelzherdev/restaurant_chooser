@@ -8,9 +8,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public class LocalTimeFormatter implements Formatter<LocalTime> {
 
     @Override

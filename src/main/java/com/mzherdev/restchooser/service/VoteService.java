@@ -5,16 +5,17 @@ import com.mzherdev.restchooser.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 21.09.16.
- */
 public interface VoteService {
 
-    Vote save(Vote vote);
+    Vote save(Vote vote, int userId, int restaurantId);
 
-    void update(Vote vote);
+    void update(Vote vote, int userId, int restaurantId) throws ReflectiveOperationException;
 
     Vote get(int id) throws NotFoundException;
 
     List<Vote> getAll();
+
+    List<Vote> getByUser(int userId);
+
+    List<Vote> getByRestaurant(int restaurantId);
 }

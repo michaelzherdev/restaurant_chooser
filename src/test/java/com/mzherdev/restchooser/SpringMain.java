@@ -4,9 +4,6 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 
 import java.util.Arrays;
 
-/**
- * Created by mzherdev on 23.09.2016.
- */
 public class SpringMain {
     public static void main(String[] args) {
 

@@ -5,20 +5,19 @@ import com.mzherdev.restchooser.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 21.09.16.
- */
 public interface DishService {
 
     Dish save(Dish dish);
 
-    void update(Dish dish);
+    void update(Dish dish) throws ReflectiveOperationException;
 
-    boolean delete(int id);
+    void delete(int id) throws NotFoundException;
 
     Dish get(int id) throws NotFoundException;
 
-    Dish getForMenu(int id, int menuId);
+    Dish getForMenu(int id, int menuId) throws NotFoundException;
+
+    List<Dish> getAllForMenu(int menuId) throws NotFoundException;
 
     List<Dish> getAll();
 }

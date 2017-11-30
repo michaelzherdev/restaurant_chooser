@@ -4,9 +4,6 @@ import com.mzherdev.restchooser.model.Dish;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 21.09.16.
- */
 public interface DishRepository {
 
     Dish save(Dish dish);
@@ -18,6 +15,8 @@ public interface DishRepository {
     Dish get(int id);
 
     Dish getForMenu(int id, int menuId);
+
+    List<Dish> getAllForMenu(int menuId);
 
     List<Dish> getAll();
 }

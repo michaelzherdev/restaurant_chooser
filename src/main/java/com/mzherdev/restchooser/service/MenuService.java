@@ -5,20 +5,19 @@ import com.mzherdev.restchooser.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 21.09.16.
- */
 public interface MenuService {
 
-    Menu save(Menu menu);
+    Menu save(Menu menu, int restaurantId);
 
-    void update(Menu menu);
-
-//    boolean delete(int id);
+    void update(Menu menu) throws ReflectiveOperationException;
 
     Menu get(int id) throws NotFoundException;
 
-    Menu getForRestaurant(int id, int restaurantId);
+    Menu getOneForRestaurant(int id, int restaurantId) throws NotFoundException;
+
+    List<Menu> getAllForRestaurant(int restaurantId);
+
+    List<Menu> getActuals();
 
     List<Menu> getAll();
 }

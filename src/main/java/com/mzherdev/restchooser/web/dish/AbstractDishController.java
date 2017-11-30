@@ -2,15 +2,13 @@ package com.mzherdev.restchooser.web.dish;
 
 import com.mzherdev.restchooser.model.Dish;
 import com.mzherdev.restchooser.service.DishService;
+import com.mzherdev.restchooser.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public abstract class AbstractDishController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -32,22 +30,25 @@ public abstract class AbstractDishController {
         return service.getForMenu(id, menuId);
     }
 
+    public List<Dish> getAllForMenu(int menuId) {
+        log.info("getAllForMenu " + menuId);
+        return service.getAllForMenu(menuId);
+    }
+
     public Dish create(Dish dish) {
         dish.setId(null);
         log.info("create " + dish);
         return service.save(dish);
     }
 
-    public void update(Dish dish, int id) {
-        dish.setId(id);
+    public void update(Dish dish, int id) throws ReflectiveOperationException {
+        ValidationUtil.assureIdConsistent(dish, id);
         log.info("update " + dish);
         service.update(dish);
     }
 
-    public void update(Dish dish) {
-        log.info("update " + dish);
-        service.update(dish);
+    public void delete(int id) {
+        log.info("delete " + id);
+        service.delete(id);
     }
-
-
 }

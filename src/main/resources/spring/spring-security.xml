@@ -6,12 +6,30 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+    <http use-expressions="true" auto-config="false" entry-point-ref="defaultEntryPoint">
         <http-basic/>
-        <intercept-url pattern="/**/admin/*" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/**" access="isAuthenticated()"/>
-        <intercept-url pattern="/rest/login" access="permitAll"/>
+        <intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/profile" access="isAuthenticated()"/>
+        <intercept-url pattern="/login" access="permitAll"/>
+        <form-login login-page="/login" default-target-url="/profile"
+                    authentication-failure-url="/login"
+                    login-processing-url="/spring_security_check"/>
+        <logout logout-success-url="/login"/>
         <csrf disabled="true"/>
+        <http-basic />
+        <session-management session-fixation-protection="migrateSession" session-authentication-error-url="/login">
+            <concurrency-control max-sessions="5"></concurrency-control>
+        </session-management>
     </http>
+
+    <beans:bean class="com.mzherdev.restchooser.web.SpringSecurityEntryPoint" id="defaultEntryPoint"/>
+
+    <beans:bean class="com.mzherdev.restchooser.util.PasswordUtil" id="passwordEncoder" factory-method="getPasswordEncoder"/>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="userService">
+            <password-encoder ref="passwordEncoder"/>
+        </authentication-provider>
+    </authentication-manager>
 
 </beans:beans>

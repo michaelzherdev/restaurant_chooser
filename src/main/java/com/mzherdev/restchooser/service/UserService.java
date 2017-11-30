@@ -5,9 +5,6 @@ import com.mzherdev.restchooser.util.exception.NotFoundException;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public interface UserService {
 
     User save(User user);
@@ -20,7 +17,7 @@ public interface UserService {
 
     List<User> getAll();
 
-    void update(User user);
+    void update(User user) throws ReflectiveOperationException;
 
     void enable(int id, boolean enable);
 

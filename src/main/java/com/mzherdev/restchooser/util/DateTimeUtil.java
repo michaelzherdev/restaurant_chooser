@@ -5,25 +5,14 @@ import org.springframework.util.StringUtils;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public class DateTimeUtil {
-    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-    public static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
-    public static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
 
     private DateTimeUtil() {
     }
 
     public static <T extends Comparable<? super T>> boolean isBetween(T value, T start, T end) {
         return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
-    }
-
-    public static String toString(LocalDateTime ldt) {
-        return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
     }
 
     public static LocalDate parseLocalDate(String str) {
@@ -34,16 +23,8 @@ public class DateTimeUtil {
         return StringUtils.isEmpty(str) ? null : LocalTime.parse(str);
     }
 
-    public static LocalDateTime parseLocalDateTime(String str) {
-        return parseLocalDateTime(str, DATE_TIME_FORMATTER);
-    }
-
-    public static LocalDateTime parseLocalDateTime(String str, DateTimeFormatter formatter) {
-        return StringUtils.isEmpty(str) ? LocalDateTime.now() : LocalDateTime.parse(str, formatter);
-    }
-
-    public static boolean canChangeVote(LocalDateTime ldt) {
-        return (ldt.toLocalDate().compareTo(LocalDate.now()) == 0
-                && (ldt.toLocalTime().compareTo(LocalTime.of(11, 00)) < 0));
+    public static boolean canChangeVote(LocalDateTime oldDateTime, LocalDateTime newDateTime) {
+        return (oldDateTime.toLocalDate().compareTo(newDateTime.toLocalDate()) <= 0
+                && (oldDateTime.toLocalTime().compareTo(LocalTime.of(11, 0, 0)) < 0));
     }
 }

@@ -1,32 +1,35 @@
 package com.mzherdev.restchooser.web.user;
 
-import com.mzherdev.restchooser.LoggedUser;
+import com.mzherdev.restchooser.AuthorizedUser;
 import com.mzherdev.restchooser.model.User;
-import com.mzherdev.restchooser.web.ExceptionInfoHandler;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
-public class ProfileRestController extends AbstractUserController implements ExceptionInfoHandler {
-    public static final String REST_URL = "/rest/profile";
+public class ProfileRestController extends AbstractUserController {
+    public static final String REST_URL = "/profile";
 
+//    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public User get() {
-        return super.get(LoggedUser.id());
+        return super.get(AuthorizedUser.id());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.DELETE)
     public void delete() {
-        super.delete(LoggedUser.id());
+        super.delete(AuthorizedUser.id());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void update(@RequestBody User user) {
-        user.setId(LoggedUser.id());
+    public void update(@RequestBody User user) throws ReflectiveOperationException {
+        user.setId(AuthorizedUser.id());
         super.update(user);
     }
 }

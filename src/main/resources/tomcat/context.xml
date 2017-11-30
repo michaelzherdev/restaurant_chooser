@@ -33,7 +33,7 @@
     <!--
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
-       <Resource name="jdbc/topjava"
+       <Resource name="jdbc/restaurantchooser"
               auth="Container"
               type="javax.sql.DataSource"
               maxActive="5"  minIdle="1"  maxWait="100000"
@@ -45,5 +45,4 @@
               password="1"
               driverClassName="org.postgresql.Driver"
               url="jdbc:postgresql://localhost:5432/restaurant"/>
-              <!--url="jdbc:postgresql://ec2-54-217-202-110.eu-west-1.compute.amazonaws.com:5432/dehm6lvm8bink0?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"-->
 </Context>

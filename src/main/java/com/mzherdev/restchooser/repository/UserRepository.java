@@ -4,9 +4,6 @@ import com.mzherdev.restchooser.model.User;
 
 import java.util.List;
 
-/**
- * Created by mzherdev on 07.06.2016.
- */
 public interface UserRepository {
     User save(User user);
 
