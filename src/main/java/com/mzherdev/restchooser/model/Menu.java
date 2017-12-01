@@ -49,7 +49,7 @@ public class Menu implements AbstractEntity {
     @Getter @Setter
     private LocalDate day;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "menu_dish_link", joinColumns = {
             @JoinColumn(name = "menu_id", nullable = false, updatable = false) },
             inverseJoinColumns = { @JoinColumn(name = "dish_id",

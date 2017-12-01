@@ -1,0 +1,23 @@
+1. Run on localhost.
+   * create database 'restaurant', user (optional)
+   * run src/main/resources/db/create_db.sql if needed to create tables for db.
+   * in src/main/resources/db/postgres.properties uncomment
+        database.url=jdbc:postgresql://localhost:5432/restaurant
+     and comment
+         database.url=jdbc:postgresql://postgres:5432/restaurant
+   * if IDE IDEA used, check if Facets Spring, JPA, Web are set.(Project Structure -> Facets)
+   * run project with Tomcat 7 or higher.
+
+2. Run with docker.
+    * in src/main/resources/db/postgres.properties uncomment
+             database.url=jdbc:postgresql://postgres:5432/restaurant
+         and comment
+            database.url=jdbc:postgresql://localhost:5432/restaurant
+    * cd ${PROJECT_FOLDER}
+    * mvn package -Dmaven.test.skip=true - to create war file
+         that will be deployed in docker tomcat container.
+    * run restart-tomcat.sh (.bat if OS Windows) or single commands from this script one by one.
+        (stop and remove commands not needed if it runs first time)
+    * project is ready to use. Basic url is http://localhost:8080/${war-file-name}
+        (http://localhost:8080/restaurant_chooser). In descripted in readme.md curl commands
+        should be used 'http://localhost:8080/restaurant_chooser' instead of 'http://localhost:8080/'
